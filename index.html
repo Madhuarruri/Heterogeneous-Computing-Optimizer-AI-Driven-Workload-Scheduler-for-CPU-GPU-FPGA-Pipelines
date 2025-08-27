@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartCompute Optimizer</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="login-screen" class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>SmartCompute Optimizer</h1>
+                <p>Intelligent workload scheduling across CPU, GPU, and FPGA</p>
+            </div>
+            <div class="auth-form">
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control" id="login-email" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-control" id="login-password" placeholder="Enter your password">
+                </div>
+                <button class="btn btn--primary btn--full-width" onclick="login()">Sign In</button>
+                <button class="btn btn--secondary btn--full-width" onclick="demoMode()">Try Demo Mode</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="main-app" class="main-app hidden">
+        <!-- Navigation Header -->
+        <header class="nav-header">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <h2>Heterogeneous Computing Optimizer AI-Driven Workload Scheduler for CPU–GPU–FPGA Pipelines</h2>
+                </div>
+                <div class="nav-user">
+                    <span id="user-name">Alex Chen</span>
+                    <button class="btn btn--secondary btn--sm" onclick="logout()">Logout</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <ul class="sidebar-menu">
+                <li><a href="#" onclick="showDashboard()" class="sidebar-link active">Dashboard</a></li>
+                <li><a href="#" onclick="showTaskSubmission()" class="sidebar-link">New Task</a></li>
+                <li><a href="#" onclick="showHistory()" class="sidebar-link">History</a></li>
+                <li><a href="#" onclick="showBenchmarks()" class="sidebar-link">Benchmarks</a></li>
+                <li><a href="#" onclick="showDevices()" class="sidebar-link">Devices</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Dashboard View -->
+            <div id="dashboard-view" class="view active">
+                <div class="dashboard-header">
+                    <h1>Welcome back, Alex!</h1>
+                    <p>Monitor and optimize your compute workloads</p>
+                </div>
+
+                <!-- Key Metrics -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <h3>847</h3>
+                        <p>Tasks Completed</p>
+                    </div>
+                    <div class="metric-card">
+                        <h3>156.8x</h3>
+                        <p>Total Speedup</p>
+                    </div>
+                    <div class="metric-card">
+                        <h3>2.8 MWh</h3>
+                        <p>Energy Saved</p>
+                    </div>
+                </div>
+
+                <!-- Action Cards -->
+                <div class="action-cards">
+                    <div class="card action-card" onclick="showTaskSubmission()">
+                        <div class="card__body">
+                            <div class="action-icon">⚡</div>
+                            <h3>Submit New Task</h3>
+                            <p>Schedule workloads for optimal performance</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card__body">
+                            <h3>Recent Runs</h3>
+                            <div class="recent-tasks" id="recent-tasks"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card__body">
+                            <h3>Performance Leaderboard</h3>
+                            <div class="leaderboard" id="leaderboard"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Task Submission View -->
+            <div id="task-submission-view" class="view">
+                <div class="task-wizard">
+                    <div class="wizard-header">
+                        <h1>Submit New Task</h1>
+                        <div class="wizard-progress">
+                            <div class="progress-step active" data-step="1">Workload</div>
+                            <div class="progress-step" data-step="2">Parameters</div>
+                            <div class="progress-step" data-step="3">Optimization</div>
+                            <div class="progress-step" data-step="4">Review</div>
+                        </div>
+                    </div>
+
+                    <!-- Step 1: Workload Selection -->
+                    <div class="wizard-step active" id="step-1">
+                        <h2>Select Workload Type</h2>
+                        <div class="workload-grid" id="workload-grid"></div>
+                        <div class="wizard-actions">
+                            <button class="btn btn--primary" onclick="nextStep()">Next</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Parameters -->
+                    <div class="wizard-step" id="step-2">
+                        <h2>Configure Parameters</h2>
+                        <div class="parameter-form" id="parameter-form"></div>
+                        <div class="wizard-actions">
+                            <button class="btn btn--secondary" onclick="prevStep()">Back</button>
+                            <button class="btn btn--primary" onclick="nextStep()">Next</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Optimization -->
+                    <div class="wizard-step" id="step-3">
+                        <h2>Optimization Goals</h2>
+                        <div class="optimization-options">
+                            <div class="option-group">
+                                <h3>Primary Goal</h3>
+                                <div class="radio-group">
+                                    <label><input type="radio" name="goal" value="speed" checked> Speed</label>
+                                    <label><input type="radio" name="goal" value="energy"> Energy Efficiency</label>
+                                    <label><input type="radio" name="goal" value="balanced"> Balanced</label>
+                                </div>
+                            </div>
+                            <div class="option-group">
+                                <h3>Device Preference</h3>
+                                <div class="radio-group">
+                                    <label><input type="radio" name="device" value="auto" checked> Auto (Recommended)</label>
+                                    <label><input type="radio" name="device" value="cpu"> Prefer CPU</label>
+                                    <label><input type="radio" name="device" value="gpu"> Prefer GPU</label>
+                                    <label><input type="radio" name="device" value="fpga"> Prefer FPGA</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="wizard-actions">
+                            <button class="btn btn--secondary" onclick="prevStep()">Back</button>
+                            <button class="btn btn--primary" onclick="nextStep()">Next</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Review -->
+                    <div class="wizard-step" id="step-4">
+                        <h2>Review & Submit</h2>
+                        <div class="task-summary" id="task-summary"></div>
+                        <div class="wizard-actions">
+                            <button class="btn btn--secondary" onclick="prevStep()">Back</button>
+                            <button class="btn btn--primary" onclick="submitTask()">Submit Task</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Task Results View -->
+            <div id="task-results-view" class="view">
+                <div class="results-header">
+                    <h1>Task Results</h1>
+                    <button class="btn btn--secondary" onclick="showDashboard()">Back to Dashboard</button>
+                </div>
+                <div class="results-content">
+                    <div class="results-summary" id="results-summary"></div>
+                    <div class="results-charts">
+                        <div class="chart-container" style="position: relative; height: 300px;">
+                            <canvas id="performance-chart"></canvas>
+                        </div>
+                        <div class="chart-container" style="position: relative; height: 300px;">
+                            <canvas id="energy-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- History View -->
+            <div id="history-view" class="view">
+                <div class="history-header">
+                    <h1>Task History</h1>
+                    <div class="history-filters">
+                        <select class="form-control" id="filter-workload">
+                            <option value="">All Workloads</option>
+                        </select>
+                        <select class="form-control" id="filter-device">
+                            <option value="">All Devices</option>
+                            <option value="CPU">CPU</option>
+                            <option value="GPU">GPU</option>
+                            <option value="FPGA">FPGA</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="history-table-container">
+                    <table class="history-table">
+                        <thead>
+                            <tr>
+                                <th>Task</th>
+                                <th>Device</th>
+                                <th>Status</th>
+                                <th>Speedup</th>
+                                <th>Energy Saved</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Benchmarks View -->
+            <div id="benchmarks-view" class="view">
+                <div class="benchmarks-header">
+                    <h1>Performance Benchmarks</h1>
+                    <p>Standard workload performance across all devices</p>
+                </div>
+                <div class="benchmark-content">
+                    <div class="architecture-diagram">
+                        <h2>System Architecture</h2>
+                        <img src="https://ppl-ai-code-interpreter-files.s3.amazonaws.com/web/direct-files/4a73db8f4d4d2548fe3ed5de0177706b/936fc86b-0a92-4c3b-8c1e-e9f75f74d38a/184aad95.png" alt="System Architecture" class="diagram-image">
+                    </div>
+                    <div class="benchmark-charts">
+                        <h2>Performance Comparison</h2>
+                        <img src="https://ppl-ai-code-interpreter-files.s3.amazonaws.com/web/direct-files/4a73db8f4d4d2548fe3ed5de0177706b/b6890a78-060c-40e4-bbd0-daf722775caa/82980399.png" alt="Performance Benchmark" class="benchmark-image">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Devices View -->
+            <div id="devices-view" class="view">
+                <div class="devices-header">
+                    <h1>Available Devices</h1>
+                </div>
+                <div class="devices-grid" id="devices-grid"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Progress Modal -->
+    <div id="progress-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2>Task Processing</h2>
+            <div class="progress-info" id="progress-info"></div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <div class="progress-logs" id="progress-logs"></div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
