@@ -5,7 +5,8 @@ A production-ready, AI-powered platform for optimizing compute workloads across 
 
 <img width="1907" height="764" alt="image" src="https://github.com/user-attachments/assets/6fd865c6-1d32-488f-a96f-9077da49a662" />
 <img width="1860" height="854" alt="image" src="https://github.com/user-attachments/assets/8af3dc07-3182-4ba4-95de-0255c6cc970f" />
-![Uploading image.png…]()
+<img width="1902" height="858" alt="image" src="https://github.com/user-attachments/assets/77433c2a-151f-42aa-95f7-25b8f3cc65be" />
+
 
 ## 🚀 Features
 
