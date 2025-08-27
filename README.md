@@ -3,6 +3,10 @@
 
 A production-ready, AI-powered platform for optimizing compute workloads across CPU, GPU, and FPGA devices. The system uses reinforcement learning to intelligently select the best execution device based on workload characteristics, performance history, and optimization goals.
 
+<img width="1907" height="764" alt="image" src="https://github.com/user-attachments/assets/6fd865c6-1d32-488f-a96f-9077da49a662" />
+<img width="1860" height="854" alt="image" src="https://github.com/user-attachments/assets/8af3dc07-3182-4ba4-95de-0255c6cc970f" />
+![Uploading image.png…]()
+
 ## 🚀 Features
 
 - **Multi-Device Optimization**: Automatic selection between CPU, GPU, and FPGA
@@ -303,14 +307,3 @@ MIT License - see LICENSE file for details.
 - AMD for ROCm platform
 - Xilinx for Vitis HLS tools
 - FastAPI and React communities
-
-## 📞 Support
-
-- Documentation: [Link to docs]
-- Issues: [GitHub Issues]
-- Discussions: [GitHub Discussions]
-- Email: support@smartcompute.example.com
-
----
-
-**Ready to optimize your compute workloads? Get started with the 5-minute demo!**
